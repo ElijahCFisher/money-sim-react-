@@ -1,0 +1,72 @@
+[
+  {
+    "commented out": "true",
+    "name": "Lower income/mortgage",
+    "sources": [
+      {
+        "id": 1,
+        "name": "Income",
+        "value": 100000,
+        "interest_rate": 0.05,
+        "type": "income"
+      },
+      {
+        "id": 2,
+        "name": "House",
+        "value": 500000,
+        "interest_rate": ".06",
+        "type": "asset"
+      },
+      {
+        "id": 5,
+        "name": "Mortgage",
+        "value": 400000,
+        "payment_type": "15yr",
+        "interest_type": "fixed",
+        "interest_rate": ".025",
+        "type": "debt"
+      }
+    ]
+  },
+  {
+    "commented out": "true",
+    "name": "Higher income/mortgage",
+    "sources": [
+      {
+        "id": 3,
+        "name": "Income",
+        "value": 150000,
+        "interest_rate": 0.05,
+        "type": "income"
+      },
+      {
+        "id": 4,
+        "name": "House",
+        "value": 700000,
+        "interest_rate": ".06",
+        "type": "asset"
+      },
+      {
+        "id": 6,
+        "name": "Mortgage",
+        "value": 600000,
+        "payment_schedule": "30yr",
+        "payment_type": "fixed",
+        "interest_rate": ".055",
+        "type": "debt"
+      }
+    ]
+  },
+  {
+    "name": "Target (with inflation)",
+    "sources": [
+      {
+        "id": "7",
+        "name": "Target",
+        "value": 1500000,
+        "interest_rate": ".02",
+        "type": "asset"
+      }
+    ]
+  }
+]
