@@ -1,20 +1,26 @@
 [
   {
-    "commented out": "true",
-    "name": "Lower income/mortgage",
+    "name": "Pred (ish)",
     "sources": [
+      {
+        "id": 8,
+        "name": "Stock portfolio",
+        "value": 158000,
+        "interest_rate": 0.06,
+        "type": "asset"
+      },
       {
         "id": 1,
         "name": "Income",
-        "value": 100000,
-        "interest_rate": 0.05,
+        "value": 215000,
+        "interest_rate": 0.20,
         "type": "income"
       },
       {
         "id": 2,
         "name": "House",
         "value": 500000,
-        "interest_rate": ".06",
+        "interest_rate": 0.06,
         "type": "asset"
       },
       {
@@ -23,50 +29,204 @@
         "value": 400000,
         "payment_type": "15yr",
         "interest_type": "fixed",
-        "interest_rate": ".025",
+        "interest_rate": 0.025,
         "type": "debt"
-      }
-    ]
-  },
-  {
-    "commented out": "true",
-    "name": "Higher income/mortgage",
-    "sources": [
-      {
-        "id": 3,
-        "name": "Income",
-        "value": 150000,
-        "interest_rate": 0.05,
-        "type": "income"
       },
       {
-        "id": 4,
-        "name": "House",
-        "value": 700000,
-        "interest_rate": ".06",
+        "id": 10,
+        "name": "Costs",
+        "value": 113000,
+        "interest_rate": 0.02,
+        "type": "cost"
+      },
+      {
+        "id": 12,
+        "name": "Miscellaneous net worth",
+        "value": 250000,
+        "interest_rate": 0.04,
+        "type": "asset"
+      }
+    ],
+    "color": "rgb(255,99,132)"
+  },
+  {
+    "name": "Chef Eli (saving extra 13k/year)",
+    "sources": [
+      {
+        "id": 9,
+        "name": "Stock portfolio",
+        "value": 158000,
+        "interest_rate": 0.06,
         "type": "asset"
       },
       {
-        "id": 6,
+        "id": 3,
+        "name": "Income",
+        "value": 215000,
+        "interest_rate": 0.20,
+        "type": "income"
+      },
+      {
+        "id": 2,
+        "name": "House",
+        "value": 500000,
+        "interest_rate": 0.06,
+        "type": "asset"
+      },
+      {
+        "id": 5,
         "name": "Mortgage",
-        "value": 600000,
-        "payment_schedule": "30yr",
-        "payment_type": "fixed",
-        "interest_rate": ".055",
+        "value": 400000,
+        "payment_type": "15yr",
+        "interest_type": "fixed",
+        "interest_rate": 0.025,
         "type": "debt"
+      },
+      {
+        "id": 11,
+        "name": "Costs",
+        "value": 100000,
+        "interest_rate": 0.02,
+        "type": "cost"
+      },
+      {
+        "id": 13,
+        "name": "Miscellaneous net worth",
+        "value": 250000,
+        "interest_rate": 0.04,
+        "type": "asset"
       }
-    ]
+    ],
+    "color": "rgb(99,132,255)"
+  },
+  {
+    "name": "Michael 5 jobs",
+    "sources": [
+      {
+        "id": 8,
+        "name": "Stock portfolio",
+        "value": 158000,
+        "interest_rate": 0.06,
+        "type": "asset"
+      },
+      {
+        "id": 1,
+        "name": "Income",
+        "value": 615000,
+        "interest_rate": 0.20,
+        "type": "income"
+      },
+      {
+        "id": 2,
+        "name": "House",
+        "value": 500000,
+        "interest_rate": 0.06,
+        "type": "asset"
+      },
+      {
+        "id": 5,
+        "name": "Mortgage",
+        "value": 400000,
+        "payment_type": "15yr",
+        "interest_type": "fixed",
+        "interest_rate": 0.025,
+        "type": "debt"
+      },
+      {
+        "id": 10,
+        "name": "Costs",
+        "value": 113000,
+        "interest_rate": 0.02,
+        "type": "cost"
+      },
+      {
+        "id": 12,
+        "name": "Miscellaneous net worth",
+        "value": 250000,
+        "interest_rate": 0.04,
+        "type": "asset"
+      }
+    ],
+    "color": "rgb(255,255,132)"
   },
   {
     "name": "Target (with inflation)",
     "sources": [
       {
-        "id": "7",
+        "id": 9,
+        "name": "Stock portfolio",
+        "value": 0,
+        "interest_rate": 0,
+        "type": "asset"
+      },
+      {
+        "id": 7,
         "name": "Target",
         "value": 1500000,
-        "interest_rate": ".02",
+        "interest_rate": 0.02,
         "type": "asset"
       }
-    ]
-  }
+    ],
+    "color": "rgb(132,255,99)"
+  },
+  {
+    "name": "Historical",
+    "data": [
+      ["2/28/22", 89842],
+      ["3/31/22", 103145],
+      ["4/30/22", 144266],
+      ["5/31/22", 126866],
+      ["6/30/22", 163585],
+      ["7/31/22", 158443],
+      ["8/31/22", 155391],
+      ["9/30/22", 146132],
+      ["10/31/22", 156209],
+      ["11/30/22", 153668],
+      ["12/31/22", 120963],
+      ["1/31/23", 136255],
+      ["2/28/23", 140140],
+      ["3/31/23", 181984],
+      ["4/30/23", 175711],
+      ["5/31/23", 184369],
+      ["6/30/23", 217669],
+      ["7/31/23", 237753],
+      ["8/31/23", 256012],
+      ["9/30/23", 242136],
+      ["10/31/23", 244182],
+      ["11/30/23", 257888],
+      ["12/31/23", 258241],
+      ["1/31/24", 254546],
+      ["2/29/24", 284604],
+      ["3/28/24", 296835],
+      ["4/29/24", 306347],
+      ["5/31/24", 330002],
+      ["6/29/24", 335891],
+      ["7/30/24", 341081],
+      ["8/2/24", 350067],
+      ["8/9/24", 355567],
+      ["8/16/24", 384348],
+      ["8/23/24", 384927],
+      ["8/30/24", 387167],
+      ["9/6/24", 384450],
+      ["9/13/24", 386817],
+      ["9/20/24", 385026],
+      ["9/27/24", 388587],
+      ["10/5/24", 401808],
+      ["10/11/24", 404232],
+      ["10/18/24", 411591],
+      ["10/25/24", 408037],
+      ["11/1/24", 404209],
+      ["11/8/24", 414965],
+      ["11/15/24", 415584],
+      ["11/22/24", 409102],
+      ["12/6/24", 419384],
+      ["12/13/24", 415142],
+      ["12/20/24", 403235],
+      ["12/27/24", 418640],
+      ["1/3/25", 412218],
+      ["1/10/25", 412657],
+      ["1/17/25", 416127]
+    ],
+    "color": "rgb(99,132,255)"
+  }  
 ]

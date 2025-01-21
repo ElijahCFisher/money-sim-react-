@@ -11,12 +11,12 @@ type Scenario = {
 function App() {
   const graphColors = ['rgb(255,99,132)', 'rgb(99,132,255)', 'rgb(132,255,99)'];
   const [count, setCount] = useState(0)
-  const [scenarios, setScenarios] = useState<Scenario[]>(exampleScenarios);
+  const [scenarios, setScenarios] = useState<Scenario[]>(exampleScenarios); //stock portfolio is always index 0... for now...
   const [netWorthsArray, setNetWorthsArray] = useState<[string, number][][]>([]);
   const [scenarioInPopup, setScenarioInPopup] = useState<[number, Scenario]|null>(null);
   const [sourceInPopup, setSourceInPopup] = useState<{[key: string]: any}|null>(null);
   const chart = useRef<Chart | null>(null);
-  const simulationYears = 10
+  const simulationYears = 17
 
   const config: ChartConfiguration<keyof ChartTypeRegistry, [number, number][], unknown> | ChartConfigurationCustomTypesPerDataset<keyof ChartTypeRegistry, [number, number][], unknown> = {
     type: 'scatter',
@@ -32,6 +32,9 @@ function App() {
               return date.getMonth()+"/"+date.getDate()+"/"+date.getFullYear()
             }
           }
+        },
+        y: {
+          max: 3000000
         }
       }
     }
@@ -49,6 +52,11 @@ function App() {
   function simulate(scenarioIndex: number) {
     var netWorth = 0;
     var netWorths:[string, number][]  = [];
+    if ("data" in scenarios[scenarioIndex]) {
+      while (netWorthsArray.length <= scenarioIndex) netWorthsArray.push([]);
+      netWorthsArray[scenarioIndex] = scenarios[scenarioIndex]["data"]
+      return
+    }
     scenarios[scenarioIndex]["sources"].forEach(source => {
       netWorth += (source["type"] == "income" ? 0 : (source["type"] == "asset" ? 1 : -1))*source["value"]
     })
@@ -61,11 +69,16 @@ function App() {
     for(let i = 0; i < days_simulated; i++, today.setDate(today.getDate()+1)) {
       sources_copy.forEach(source => {
         let sourceType = source["type"];
-        netWorth += sourceType == "income" ? source["value"]/365 : (sourceType == "asset" ? -source["value"] : source["value"])
+        // Remove the assets and debts from net worth
+        netWorth += (sourceType == "asset" ? -1 : (sourceType == "debt" ? 1 : 0)) * source["value"]
+        // Add income to and remove costs from stock portfolio
+        sources_copy[0]["value"] += (sourceType == "income" ? 1 : (sourceType == "cost" ? -1 : 0)) * source["value"]/365
+        // Increase the value of everything with an interest_rate (everything)
         source["value"] *= Math.E**(source["interest_rate"]/365)
-        netWorth += (sourceType == "income" ? 0 : (sourceType == "asset" ? 1 : -1)) * source["value"]
+        // Add back in the assets and debts to net worth
+        netWorth += (sourceType == "asset" ? 1 : (sourceType == "debt" ? -1 : 0)) * source["value"]
       })
-      netWorths.push([String(today.toJSON().slice(0,10).replace(/-/g,'/')), netWorth])
+      netWorths.push([String(today.toJSON().slice(0,10).replace(/-/g,'/')), netWorth ])
     }
 
     while (netWorthsArray.length <= scenarioIndex) netWorthsArray.push([]);
@@ -98,7 +111,9 @@ function App() {
         if (data.datasets.length <= i) data.datasets.push({
           label: scenarios[i]["name"],
           data: [],
-          backgroundColor: graphColors[i%graphColors.length]
+          backgroundColor: scenarios[i]["color"],
+          pointRadius: 1
+          // backgroundColor: graphColors[i%graphColors.length]
         })
         data.datasets[i].data = netWorthsArray[i].map(([date, money]) => [new Date(date).getTime(),money])
       }
