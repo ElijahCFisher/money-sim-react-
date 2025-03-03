@@ -133,6 +133,7 @@ button {
   background-color: white;
   display: flex;
   flex-direction: column;
+  overflow-y:auto
 }
 
 .source_popup_header {
