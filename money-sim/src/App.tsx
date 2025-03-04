@@ -2,13 +2,19 @@ import { Dispatch, useEffect, useState, useRef } from 'react'
 import './App.css'
 import exampleScenarios from './assets/scenarios.json'
 import Chart, { ChartConfiguration, ChartConfigurationCustomTypesPerDataset, ChartTypeRegistry } from 'chart.js/auto'
+import { FaRegEdit } from "react-icons/fa";
+import { BiSolidHide } from "react-icons/bi";
+import { FaSave } from "react-icons/fa";
+import { FaUpload } from "react-icons/fa";
 
 type Scenario = {
   sources: {[key: string]: any}[];
   [key: string]: any;
+  hidden: boolean;
 }
 
 function App() {
+  var toSimulate = true;
   const graphColors = ['rgb(255,99,132)', 'rgb(99,132,255)', 'rgb(132,255,99)'];
   const [count, setCount] = useState(0)
   const [scenarios, setScenarios] = useState<Scenario[]>(exampleScenarios); //stock portfolio is always index 0... for now...
@@ -17,6 +23,47 @@ function App() {
   const [sourceInPopup, setSourceInPopup] = useState<{[key: string]: any}|null>(null);
   const chart = useRef<Chart | null>(null);
   const simulationYears = 17
+
+  useEffect(() => {
+    if (toSimulate) {
+      for(let i = 0; i < scenarios.length; i++) simulate(i);
+      toSimulate = false;
+    }
+    graph();
+  }, [scenarios])
+
+  const saveFile = async (blob: Blob) => {
+    const a = document.createElement('a');
+    a.download = Date.now() + '.json';
+    a.href = URL.createObjectURL(blob);
+    a.addEventListener('click', (e) => {
+      setTimeout(() => URL.revokeObjectURL(a.href), 30 * 1000);
+    });
+    a.click();
+  };
+
+  const loadScenarios = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(1)
+    // getting a hold of the file reference
+    var files = e.target.files; 
+
+    if (files == null) return;
+
+    var file = files[0];
+
+    // setting up the reader
+    var reader = new FileReader();
+    reader.readAsText(file); // this is reading as data url
+
+    // here we tell the reader what to do when it's done reading...
+    reader.onload = readerEvent => {
+      var targ = readerEvent.target
+      if (targ == null) return;
+      var content = targ.result; // this is the content!
+      if (content == null) return;
+      setScenarios(JSON.parse(content as string) as Scenario[]);
+    }
+  }
 
   const config: ChartConfiguration<keyof ChartTypeRegistry, [number, number][], unknown> | ChartConfigurationCustomTypesPerDataset<keyof ChartTypeRegistry, [number, number][], unknown> = {
     type: 'scatter',
@@ -136,16 +183,20 @@ function App() {
   }
 
   function graph() {
+    var numDisplayed = 0;
     if (netWorthsArray != null && netWorthsArray[0] != null) {
       for (var i = 0; i < netWorthsArray.length; i++) {
-        if (data.datasets.length <= i) data.datasets.push({
+        if (scenarios[i].hidden) continue;
+        if (data.datasets.length <= numDisplayed) data.datasets.push({
           label: netWorthsArray[i][0],
           data: [],
           backgroundColor: netWorthsArray[i][1],
           pointRadius: 1
           // backgroundColor: graphColors[i%graphColors.length]
         })
-        data.datasets[i].data = netWorthsArray[i][2].map(([date, money]) => [new Date(date).getTime(),money])
+        data.datasets[numDisplayed].data = netWorthsArray[i][2].map(([date, money]) => [new Date(date).getTime(),money])
+        numDisplayed++
+        console.log(i, numDisplayed)
       }
 
       config.data = data;
@@ -271,17 +322,28 @@ function App() {
 
   useEffect(() => {
     for(let i = 0; i < scenarios.length; i++) simulate(i);
+    toSimulate = false;
     graph();
   }, [])
 
   return (
     <>
       <div className="scenarios">
-        <div className="scenario_header">Scenarios</div>
+        <div className="scenario_header">
+          Scenarios
+          <div className="saveLoadContainer">
+            <button className="loadScenarios" onClick={(e) => document.getElementById("loadScenarios-input")?.click()}><FaUpload /></button>
+            <input id="loadScenarios-input" type="file" name="name" onChange={(e) => {console.log("ANYTHING??"); loadScenarios(e)} }/>
+            <button className="saveScenarios" onClick={(e) => saveFile(new Blob([JSON.stringify(scenarios, null, 2)], {type : "application/json"}))}><FaSave /></button>
+          </div>
+        </div>
         {scenarios.map((scenario, i) => 
         <div className="scenario">
-          <div className="scenario_name">{scenario["name"]}</div> 
-          <button className="scenario_expand" onClick={(e) => setScenarioInPopup([i, scenario])}>+</button>
+          <div className={"scenario_name"+(scenario["hidden"] ? "_strikethrough" : "")}>{scenario["name"]}</div> 
+          <div>
+            <button className="scenario_hide_unhide" onClick={(e) => setScenarios(scenarios.map((scen, ind) => ind == i ? {...scen, hidden: !scen.hidden} : scen))}><BiSolidHide /></button>
+            <button className="scenario_expand" onClick={(e) => setScenarioInPopup([i, scenario])}><FaRegEdit /></button>
+          </div>
         </div>)}
         {scenarioInPopup &&
         <div className="scenario_popup">

@@ -20,6 +20,41 @@
   border-bottom: 3px solid black;
   padding: 5px;
   height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.saveLoadContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.loadScenarios {
+  margin-right: 5px;
+  height: 80%;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 0px;
+  line-height: 1;
+}
+
+#loadScenarios-input {
+  display: none;
+}
+
+.saveScenarios {
+  margin-right: 5px;
+  height: 80%;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 0px;
+  line-height: 1;
 }
 
 .scenario {
@@ -44,11 +79,27 @@
   padding-left: 5px;
 }
 
+.scenario_name_strikethrough {
+  padding-left: 5px;
+  text-decoration: line-through;
+}
+
 button {
   background-color: rgb(220, 220, 220);
 }
 
 .scenario_expand {
+  margin-right: 5px;
+  height: 80%;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 0px;
+  line-height: 1;
+}
+
+.scenario_hide_unhide {
   margin-right: 5px;
   height: 80%;
   aspect-ratio: 1/1;
