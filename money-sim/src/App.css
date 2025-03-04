@@ -88,7 +88,29 @@ button {
   background-color: rgb(220, 220, 220);
 }
 
+.scenario_buttons {
+  display: grid;
+  grid-template-areas:
+    ". hide"
+    "delete edit";
+}
+
 .scenario_expand {
+  grid-area: edit;
+
+  margin-right: 5px;
+  height: 80%;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 0px;
+  line-height: 1;
+}
+
+.scenario_delete {
+  grid-area: delete;
+
   margin-right: 5px;
   height: 80%;
   aspect-ratio: 1/1;
@@ -100,6 +122,8 @@ button {
 }
 
 .scenario_hide_unhide {
+  grid-area: hide;
+
   margin-right: 5px;
   height: 80%;
   aspect-ratio: 1/1;

@@ -2,10 +2,9 @@ import { Dispatch, useEffect, useState, useRef } from 'react'
 import './App.css'
 import exampleScenarios from './assets/scenarios.json'
 import Chart, { ChartConfiguration, ChartConfigurationCustomTypesPerDataset, ChartTypeRegistry } from 'chart.js/auto'
-import { FaRegEdit } from "react-icons/fa";
+import { FaSave, FaUpload, FaRegEdit } from "react-icons/fa";
 import { BiSolidHide } from "react-icons/bi";
-import { FaSave } from "react-icons/fa";
-import { FaUpload } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 type Scenario = {
   sources: {[key: string]: any}[];
@@ -99,6 +98,7 @@ function App() {
   function simulate(scenarioIndex: number) {
     var netWorth = 0;
     var netWorths:[string, number][]  = [];
+    setNetWorthsArray([]);
     if (scenarios[scenarioIndex]["type"] == "data") {
       while (netWorthsArray.length <= scenarioIndex) netWorthsArray.push([]);
       console.log(scenarios[scenarioIndex]["data"][0])
@@ -106,10 +106,11 @@ function App() {
       return
     }
     if (scenarios[scenarioIndex]["type"] == "fit") {
-      let referenceIndex = scenarios[scenarioIndex]["referenceIndex"]
-      var parameters = fitDataContinuousCompoundingWithRegularContributions(scenarios[referenceIndex]["data"])
+      let referenceId = scenarios[scenarioIndex]["referenceId"]
+      var scenarioReffed = scenarios.filter(scen => scen["id"] == referenceId)[0]
+      var parameters = fitDataContinuousCompoundingWithRegularContributions(scenarioReffed["data"])
       console.log(parameters);
-      let startDate = new Date(scenarios[referenceIndex]["data"][0][0])
+      let startDate = new Date(scenarioReffed["data"][0][0])
 
       let days_simulated = 365*simulationYears
       let currentDate = new Date(startDate); // "today" for now
@@ -340,7 +341,8 @@ function App() {
         {scenarios.map((scenario, i) => 
         <div className="scenario">
           <div className={"scenario_name"+(scenario["hidden"] ? "_strikethrough" : "")}>{scenario["name"]}</div> 
-          <div>
+          <div className="scenario_buttons">
+            <button className="scenario_delete" onClick={(e) => setScenarios(scenarios.filter((scen, ind) => ind != i))}><MdDelete /></button>
             <button className="scenario_hide_unhide" onClick={(e) => setScenarios(scenarios.map((scen, ind) => ind == i ? {...scen, hidden: !scen.hidden} : scen))}><BiSolidHide /></button>
             <button className="scenario_expand" onClick={(e) => setScenarioInPopup([i, scenario])}><FaRegEdit /></button>
           </div>
