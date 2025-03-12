@@ -656,5 +656,13 @@
     "referenceId": 4,
     "fitType": "fitDataContinuousCompoundingWithRegularContributions",
     "color": "rgb(200, 0, 200)"
+  },
+  {
+    "id": 7,
+    "name": "Hf - 15k+ save/yr",
+    "type": "modified",
+    "referenceId": 6,
+    "Yearly Contribution diff": 15000,
+    "color": "rgb(160, 0, 160)"
   }
 ]
